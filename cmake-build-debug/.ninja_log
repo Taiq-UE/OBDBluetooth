@@ -1,0 +1,5 @@
+# ninja log v5
+16	4409	7399921018071939	CMakeFiles/OBDBluetoothScanner.dir/src/BluetoothConnection.cpp.obj	3ddc9ddb6c3f20b7
+1	4425	7399921018151934	CMakeFiles/OBDBluetoothScanner.dir/src/main.cpp.obj	17555ad16fbd29f6
+27	4429	7399921018261912	CMakeFiles/OBDBluetoothScanner.dir/src/OBD2Communication.cpp.obj	b0db8ed181983553
+4430	5340	7399921027319643	OBDBluetoothScanner.exe	bf885adf9ce6453

@@ -1,0 +1,3 @@
+C:/Users/kamil/CLionProjects/OBDBluetoothScanner/cmake-build-debug/CMakeFiles/OBDBluetoothScanner.dir
+C:/Users/kamil/CLionProjects/OBDBluetoothScanner/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/kamil/CLionProjects/OBDBluetoothScanner/cmake-build-debug/CMakeFiles/rebuild_cache.dir
