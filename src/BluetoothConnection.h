@@ -5,10 +5,12 @@
 class BluetoothConnection {
 public:
     BluetoothConnection();
-    ~BluetoothConnection();
-    bool connect(const std::string& port);
-    bool send(const std::string& data);
-    std::string receive();
+    virtual ~BluetoothConnection();
+
+    virtual bool connect(const std::string& port);
+    virtual bool send(const std::string& data);
+    virtual std::string receive();
+
 private:
     HANDLE hSerial;
 };

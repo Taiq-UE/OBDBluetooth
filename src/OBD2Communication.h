@@ -5,10 +5,10 @@
 class OBD2Communication {
 public:
     OBD2Communication(BluetoothConnection& bt);
-    bool initialize();
-    int getSpeed();
-    int getRPM();
-    std::string getDTCs();
+    virtual bool initialize();
+    virtual int getSpeed();
+    virtual int getRPM();
+    virtual std::string getDTCs();
 private:
     BluetoothConnection& btConnection;
     std::string sendCommand(const std::string& command);

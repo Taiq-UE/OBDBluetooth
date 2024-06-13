@@ -67,6 +67,18 @@ build CMakeFiles/OBDBluetoothScanner.dir/src/OBD2Communication.cpp.obj: CXX_COMP
   OBJECT_DIR = CMakeFiles\OBDBluetoothScanner.dir
   OBJECT_FILE_DIR = CMakeFiles\OBDBluetoothScanner.dir\src
 
+build CMakeFiles/OBDBluetoothScanner.dir/src/BluetoothConnectionSimulator.cpp.obj: CXX_COMPILER__OBDBluetoothScanner_unscanned_Debug C$:/Users/kamil/CLionProjects/OBDBluetoothScanner/src/BluetoothConnectionSimulator.cpp || cmake_object_order_depends_target_OBDBluetoothScanner
+  DEP_FILE = CMakeFiles\OBDBluetoothScanner.dir\src\BluetoothConnectionSimulator.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\OBDBluetoothScanner.dir
+  OBJECT_FILE_DIR = CMakeFiles\OBDBluetoothScanner.dir\src
+
+build CMakeFiles/OBDBluetoothScanner.dir/src/OBD2CommunicationSimulator.cpp.obj: CXX_COMPILER__OBDBluetoothScanner_unscanned_Debug C$:/Users/kamil/CLionProjects/OBDBluetoothScanner/src/OBD2CommunicationSimulator.cpp || cmake_object_order_depends_target_OBDBluetoothScanner
+  DEP_FILE = CMakeFiles\OBDBluetoothScanner.dir\src\OBD2CommunicationSimulator.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\OBDBluetoothScanner.dir
+  OBJECT_FILE_DIR = CMakeFiles\OBDBluetoothScanner.dir\src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target OBDBluetoothScanner
@@ -75,7 +87,7 @@ build CMakeFiles/OBDBluetoothScanner.dir/src/OBD2Communication.cpp.obj: CXX_COMP
 #############################################
 # Link the executable OBDBluetoothScanner.exe
 
-build OBDBluetoothScanner.exe: CXX_EXECUTABLE_LINKER__OBDBluetoothScanner_Debug CMakeFiles/OBDBluetoothScanner.dir/src/main.cpp.obj CMakeFiles/OBDBluetoothScanner.dir/src/BluetoothConnection.cpp.obj CMakeFiles/OBDBluetoothScanner.dir/src/OBD2Communication.cpp.obj
+build OBDBluetoothScanner.exe: CXX_EXECUTABLE_LINKER__OBDBluetoothScanner_Debug CMakeFiles/OBDBluetoothScanner.dir/src/main.cpp.obj CMakeFiles/OBDBluetoothScanner.dir/src/BluetoothConnection.cpp.obj CMakeFiles/OBDBluetoothScanner.dir/src/OBD2Communication.cpp.obj CMakeFiles/OBDBluetoothScanner.dir/src/BluetoothConnectionSimulator.cpp.obj CMakeFiles/OBDBluetoothScanner.dir/src/OBD2CommunicationSimulator.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lws2_32  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\OBDBluetoothScanner.dir
