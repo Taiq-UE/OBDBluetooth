@@ -5,7 +5,7 @@
 #include <string>
 
 static std::unordered_map<std::string, std::string> dtcCodes = {
-      {"P0000", "No trouble code"},
+  {"P0000", "No trouble code"},
   {"P0001", "Fuel Volume Regulator Control Circuit / Open"},
   {"P0002", "Fuel Volume Regulator Control Circuit Range/Performance"},
   {"P0003", "Fuel Volume Regulator Control Circuit Low"},
@@ -3752,5 +3752,14 @@ static std::unordered_map<std::string, std::string> dtcCodes = {
   {"U2500", "(CAN) Lack of Acknowledgement From Engine Management"}
 
 };
+
+std::string interpretDTC(const std::string& code) {
+    auto it = dtcCodes.find(code);
+    if (it != dtcCodes.end()) {
+        return it->second;
+    } else {
+        return "Unknown DTC code: " + code;
+    }
+}
 
 #endif // DTC_CODES_H

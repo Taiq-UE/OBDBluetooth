@@ -17,12 +17,16 @@ int OBD2CommunicationSimulator::getRPM() {
     return distribution(generator);
 }
 
+#include <iomanip> // for std::setw and std::setfill
+
 std::string OBD2CommunicationSimulator::getDTCs() {
-    // Zwracamy losowe kody błędów diagnostycznych
-    char buffer[5];
-    for (int i = 0; i < sizeof(buffer) - 1; ++i) {
-        buffer[i] = static_cast<char>(distribution(generator) % 26 + 'A');
+    // Zwracamy kilka losowych kodów błędów diagnostycznych
+    std::string dtcs;
+    for (int i = 0; i < 5; ++i) { // Generate 5 random DTCs
+        int number = distribution(generator) % 1919; // Generate a number between 0 and 1918
+        std::ostringstream oss;
+        oss << "P" << std::setw(4) << std::setfill('0') << number; // Convert the number to a string, padding with zeros if necessary
+        dtcs += oss.str() + " ";
     }
-    buffer[sizeof(buffer) - 1] = '\0';
-    return std::string(buffer);
+    return dtcs;
 }

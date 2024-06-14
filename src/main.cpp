@@ -1,7 +1,10 @@
 #include "BluetoothConnectionSimulator.h"
 #include "OBD2CommunicationSimulator.h"
+#include "DTC_Codes.h"
 
 #include <iostream>
+#include <unordered_map>
+#import <sstream>
 
 
 int main() {
@@ -25,16 +28,32 @@ int main() {
 
     // Retrieve simulated real-time data
 
-    for(int i = 0; i < 1000; i++){
-        auto speed = obd2.getSpeed();
-        auto rpm = obd2.getRPM();
-        std::cout << "Speed: " << speed << " km/h" << std::endl;
-        std::cout << "RPM: " << rpm << std::endl;
+//    for(int i = 0; i < 1000; i++){
+//        auto speed = obd2.getSpeed();
+//        auto rpm = obd2.getRPM();
+//        std::cout << "Speed: " << speed << " km/h" << std::endl;
+//        std::cout << "RPM: " << rpm << std::endl;
+//    }
+
+    std::string dtcs = obd2.getDTCs();
+    std::cout << "Diagnostic Trouble Codes: " << dtcs << std::endl;
+
+    std::stringstream ss(dtcs);
+    std::string code;
+    std::vector<std::string> codes;
+
+    while (ss >> code) {
+        codes.push_back(code);
     }
 
-    // Retrieve simulated DTCs
-    auto dtcs = obd2.getDTCs();
-    std::cout << "Diagnostic Trouble Codes: " << dtcs << std::endl;
+    for (const std::string& code : codes) {
+        std::unordered_map<std::string, std::string>::iterator it = dtcCodes.find(code);
+        if (it != dtcCodes.end()) {
+            std::cout << "Code: " << code << ", " << it->second << std::endl;
+        } else {
+            std::cout << "Code: " << code << ", Interpretation: Unknown DTC code" << std::endl;
+        }
+    }
 
     return 0;
 }

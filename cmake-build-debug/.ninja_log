@@ -6,3 +6,10 @@
 28	5929	7399987019624276	CMakeFiles/OBDBluetoothScanner.dir/src/OBD2Communication.cpp.obj	b0db8ed181983553
 6	743	7400822634241891	build.ninja	61f99ff7ef29e295
 8	3748	7399990917425665	CMakeFiles/OBDBluetoothScanner.dir/src/OBD2CommunicationSimulator.cpp.obj	23848c028c7492e2
+7	5306	7400838915039416	CMakeFiles/OBDBluetoothScanner.dir/src/main.cpp.obj	17555ad16fbd29f6
+71	5309	7400838915239433	CMakeFiles/OBDBluetoothScanner.dir/src/OBD2CommunicationSimulator.cpp.obj	23848c028c7492e2
+5309	6360	7400838925353628	OBDBluetoothScanner.exe	f5b85c18e4cbe399
+7	7065	7400846069637407	CMakeFiles/OBDBluetoothScanner.dir/src/main.cpp.obj	17555ad16fbd29f6
+7066	7782	7400846076482039	OBDBluetoothScanner.exe	f5b85c18e4cbe399
+8	7167	7400846408112431	CMakeFiles/OBDBluetoothScanner.dir/src/main.cpp.obj	17555ad16fbd29f6
+7168	7836	7400846414432431	OBDBluetoothScanner.exe	f5b85c18e4cbe399
