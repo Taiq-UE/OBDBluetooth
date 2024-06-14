@@ -10,6 +10,7 @@ add_executable(OBDBluetoothScanner src/main.cpp
         src/OBD2Communication.cpp
         src/BluetoothConnectionSimulator.cpp
         src/OBD2CommunicationSimulator.cpp
-        src/BluetoothConnectionSimulator.h)
+        src/BluetoothConnectionSimulator.h
+        src/DTC_Codes.h)
 
 target_link_libraries(OBDBluetoothScanner ws2_32)
