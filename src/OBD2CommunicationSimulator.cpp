@@ -1,6 +1,8 @@
 #include "OBD2CommunicationSimulator.h"
 
-OBD2CommunicationSimulator::OBD2CommunicationSimulator(BluetoothConnection& bt) : OBD2Communication(bt), generator(std::random_device{}()), distribution(0, 255) {}
+#include <iomanip> // for std::setw and std::setfill
+
+OBD2CommunicationSimulator::OBD2CommunicationSimulator(BluetoothConnection& bt) : OBD2Communication(bt), generator(std::random_device{}()), distribution(0, 1918) {}
 
 bool OBD2CommunicationSimulator::initialize() {
     // Zawsze udajemy, że inicjalizacja jest udana
@@ -17,7 +19,7 @@ int OBD2CommunicationSimulator::getRPM() {
     return distribution(generator);
 }
 
-#include <iomanip> // for std::setw and std::setfill
+
 
 std::string OBD2CommunicationSimulator::getDTCs() {
     // Zwracamy kilka losowych kodów błędów diagnostycznych

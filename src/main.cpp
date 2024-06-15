@@ -47,11 +47,11 @@ int main() {
     }
 
     for (const std::string& code : codes) {
-        std::unordered_map<std::string, std::string>::iterator it = dtcCodes.find(code);
+        auto it = dtcCodes.find(code);
         if (it != dtcCodes.end()) {
             std::cout << "Code: " << code << ", " << it->second << std::endl;
         } else {
-            std::cout << "Code: " << code << ", Interpretation: Unknown DTC code" << std::endl;
+            std::cout << "Code: " << code << ", Unknown DTC code" << std::endl;
         }
     }
 
