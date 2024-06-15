@@ -1,3 +1,5 @@
+#include "BluetoothConnection.h"
+#include "OBD2Communication.h"
 #include "BluetoothConnectionSimulator.h"
 #include "OBD2CommunicationSimulator.h"
 #include "DTC_Codes.h"
@@ -8,6 +10,24 @@
 
 
 int main() {
+    BluetoothConnection bt2;
+    if (!bt2.connect("COM5")) {
+        std::cerr << "Failed to connect to OBD2 device" << std::endl;
+//        return 1;
+    }
+    else {
+        std::cout << "Connection to OBD2 device successful" << std::endl;
+    }
+
+    OBD2Communication obd22(bt2);
+    if (!obd22.initialize()) {
+        std::cerr << "Failed to initialize OBD2 communication" << std::endl;
+//        return 1;
+    }
+    else {
+        std::cout << "OBD2 communication initialized" << std::endl;
+    }
+
     BluetoothConnectionSimulator bt;
     if (!bt.connect("COM5")) {
         std::cerr << "Failed to connect to OBD2 device" << std::endl;

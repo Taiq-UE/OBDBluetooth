@@ -13,7 +13,7 @@ BluetoothConnection::~BluetoothConnection() {
 bool BluetoothConnection::connect(const std::string& port) {
     hSerial = CreateFile(port.c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
     if (hSerial == INVALID_HANDLE_VALUE) {
-        std::cerr << "Error opening serial port" << std::endl;
+        std::cout << "Error opening serial port" << std::endl;
         return false;
     }
 
