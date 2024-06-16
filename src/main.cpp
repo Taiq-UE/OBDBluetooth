@@ -19,6 +19,7 @@ int main() {
         return -1;
     }
 
+
     std::string data = response.substr(start + 6); // Skip "41 " and the next 4 characters
     std::istringstream ss(data);
 
