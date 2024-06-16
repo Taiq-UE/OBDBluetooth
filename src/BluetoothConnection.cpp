@@ -51,6 +51,7 @@ bool BluetoothConnection::connect(const std::string& port) {
 
 bool BluetoothConnection::send(const std::string& data) {
     DWORD bytesWritten;
+    Sleep(400);
     if (!WriteFile(hSerial, data.c_str(), data.size(), &bytesWritten, NULL)) {
         std::cerr << "Error writing to serial port" << std::endl;
         return false;

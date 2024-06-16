@@ -39,9 +39,14 @@ int main() {
     std::cout << "Parsed RPM: " << obd2.getRPM() << std::endl;
     std::cout << "DTCs: " << obd2.getDTCs() << std::endl;
 
-    for(int i = 0; i < 1000; i++){
-        std::cout << "Speed: " << obd2.getSpeed() << std::endl;
-        std::cout << "RPM: " << obd2.getRPM() << std::endl;
+//    obd2.checkSupportedPIDs();
+
+    for(int i = 0; i < 10000; i++) {
+//        std::cout << "Speed: " << obd2.getSpeed() << std::endl;
+//        std::cout << "RPM: " << obd2.getRPM() << std::endl;
+        std::cout << "Boost Pressure Actual Value: " << obd2.getBoostPressureActualValue() << " mbar" << std::endl;
+        std::cout << "Boost Pressure Specified Value: " << obd2.getBoostPressureSpecifiedValue() << " mbar" << std::endl;
+
     }
 
 
