@@ -56,13 +56,12 @@ int OBD2Communication::parseResponse(const std::string& response, int byteCount)
         return -1;
     }
 
-    // Find the start of the actual data
     size_t start = response.find("41 ");
     if (start == std::string::npos) {
         return -1;
     }
 
-    std::string data = response.substr(start + 3); // Skip "41 "
+    std::string data = response.substr(start + 6);
     std::istringstream ss(data);
 
     std::string byteStr;
@@ -78,7 +77,7 @@ int OBD2Communication::parseResponse(const std::string& response, int byteCount)
     std::istringstream(hexValue) >> std::hex >> value;
 
     if (byteCount == 2) {
-        value = value / 4; // RPM needs to be divided by 4 as per OBD-II spec
+        value = static_cast<int>(value / 4.0); // RPM needs to be divided by 4.0 as per OBD-II spec
     }
 
     return value;

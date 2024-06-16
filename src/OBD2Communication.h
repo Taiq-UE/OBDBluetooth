@@ -12,10 +12,11 @@ public:
 
     std::string sendCommand(const std::string& command);
 
+    static int parseResponse(const std::string &response, int byteCount);
+
 private:
     BluetoothConnection& btConnection;
 
     int parseResponse(const std::string& response);
 
-    static int parseResponse(const std::string &response, int byteCount);
 };
