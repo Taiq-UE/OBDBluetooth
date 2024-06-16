@@ -9,8 +9,13 @@ public:
     virtual int getSpeed();
     virtual int getRPM();
     virtual std::string getDTCs();
+
+    std::string sendCommand(const std::string& command);
+
 private:
     BluetoothConnection& btConnection;
-    std::string sendCommand(const std::string& command);
+
     int parseResponse(const std::string& response);
+
+    static int parseResponse(const std::string &response, int byteCount);
 };
