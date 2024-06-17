@@ -23,9 +23,12 @@ public:
 
     double getBoostPressureActualValue();
 
+    void queryAllPIDs();
+
 private:
     BluetoothConnection& btConnection;
 
     int parseResponse(const std::string& response);
 
+    void parseAndPrintResponse(const std::string &command, const std::string &response);
 };

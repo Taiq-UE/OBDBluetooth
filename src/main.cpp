@@ -10,10 +10,6 @@
 
 
 int main() {
-
-
-
-
     BluetoothConnection bt2;
     if (!bt2.connect("COM5")) {
         std::cerr << "Failed to connect to OBD2 device" << std::endl;
@@ -28,35 +24,25 @@ int main() {
         std::cout << "OBD2 communication initialized" << std::endl;
     }
 
-    // Debugging: print raw responses
-    std::string speedResponse = obd2.sendCommand("010D\r");
-    std::cout << "Raw speed response: " << speedResponse << std::endl;
-
-    std::string rpmResponse = obd2.sendCommand("010C\r");
-    std::cout << "Raw RPM response: " << rpmResponse << std::endl;
-
-    std::cout << "Parsed speed: " << obd2.getSpeed() << std::endl;
-    std::cout << "Parsed RPM: " << obd2.getRPM() << std::endl;
-    std::cout << "DTCs: " << obd2.getDTCs() << std::endl;
-
-//    obd2.checkSupportedPIDs();
-
-    for(int i = 0; i < 10000; i++) {
+//    // Debugging: print raw responses
+//    std::string speedResponse = obd2.sendCommand("010D\r");
+//    std::cout << "Raw speed response: " << speedResponse << std::endl;
+//
+//    std::string rpmResponse = obd2.sendCommand("010C\r");
+//    std::cout << "Raw RPM response: " << rpmResponse << std::endl;
+//
+//    std::cout << "Parsed speed: " << obd2.getSpeed() << std::endl;
+//    std::cout << "Parsed RPM: " << obd2.getRPM() << std::endl;
+//    std::cout << "DTCs: " << obd2.getDTCs() << std::endl;
+//
+//    for(int i = 0; i < 1000; i++){
 //        std::cout << "Speed: " << obd2.getSpeed() << std::endl;
 //        std::cout << "RPM: " << obd2.getRPM() << std::endl;
-        std::cout << "Boost Pressure Actual Value: " << obd2.getBoostPressureActualValue() << " mbar" << std::endl;
-        std::cout << "Boost Pressure Specified Value: " << obd2.getBoostPressureSpecifiedValue() << " mbar" << std::endl;
-
-    }
+//    }
 
 
 
-
-
-
-
-
-
+obd2.queryAllPIDs();
 
 
 
