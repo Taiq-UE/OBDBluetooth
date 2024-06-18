@@ -23,12 +23,11 @@ int main() {
     }
 
     for(int i = 0; i < 1000; i++){
-        std::cout << "Speed: " << obd2.getSpeed() << std::endl;
+        std::cout << "Speed: " << obd2.getSpeed() << " km/h" << std::endl;
         std::cout << "RPM: " << obd2.getRPM() << std::endl;
-        std::cout << "Throttle Position: " << obd2.getThrottlePosition() << std::endl;
-        std::cout << "OBD Supply Voltage: " << obd2.getOBDSupplyVoltage() << std::endl;
-        std::cout << "Boost Level: " << obd2.getBoostLevel() << std::endl;
-        std::cout << "Coolant Temperature: " << obd2.getCoolantTemperature() << std::endl;
+        std::cout << "OBD Supply Voltage: " << obd2.getOBDSupplyVoltage() << " V" << std::endl;
+        std::cout << "Boost Level: " << obd2.getBoostLevel() << " bar" << std::endl;
+        std::cout << "Coolant Temperature: " << obd2.getCoolantTemperature() << " degreeC" << std::endl << std::endl <<  std::endl;
     }
 
     return 0;

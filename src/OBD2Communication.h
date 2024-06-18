@@ -9,7 +9,7 @@ public:
     virtual int getSpeed();
     virtual int getRPM();
     virtual double getThrottlePosition();
-    virtual std::string getOBDSupplyVoltage();
+    virtual double getOBDSupplyVoltage();
     virtual double getBoostLevel();
     virtual int getCoolantTemperature();
     virtual void queryAllPIDs();

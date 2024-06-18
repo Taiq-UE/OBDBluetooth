@@ -3,6 +3,7 @@
 #include <sstream>
 #include <vector>
 #include <map>
+#include <algorithm>
 
 
 OBD2Communication::OBD2Communication(BluetoothConnection& bt) : btConnection(bt) {}
@@ -245,7 +246,7 @@ bool OBD2Communication::initialize() {
 
 std::string OBD2Communication::sendCommand(const std::string& command) {
     btConnection.send(command);
-    Sleep(100); // Wait for response
+    Sleep(75); // Wait for response
     return btConnection.receive();
 }
 
@@ -350,27 +351,8 @@ double OBD2Communication::getBoostLevel() {
     int valueManifold;
     std::istringstream(byteStrManifold) >> std::hex >> valueManifold;
 
-    // Get barometric (ambient) pressure
-    std::string responseBarometric = sendCommand("0133\r"); // PID for Barometric pressure
-    if (responseBarometric.empty()) {
-        return -1;
-    }
-
-    size_t startBarometric = responseBarometric.find("41 ");
-    if (startBarometric == std::string::npos) {
-        return -1;
-    }
-
-    std::string dataBarometric = responseBarometric.substr(startBarometric + 6);
-    std::istringstream ssBarometric(dataBarometric);
-
-    std::string byteStrBarometric;
-    if (!(ssBarometric >> byteStrBarometric)) {
-        return -1;
-    }
-
-    int valueBarometric;
-    std::istringstream(byteStrBarometric) >> std::hex >> valueBarometric;
+    // Use hardcoded barometric (ambient) pressure
+    double valueBarometric = 101.6;
 
     // Calculate and return boost level in bars
     return (valueManifold - valueBarometric) / 100.0;
@@ -401,8 +383,18 @@ int OBD2Communication::getCoolantTemperature() {
     return value - 40; // The value needs to be offset by -40 as per OBD-II spec
 }
 
-std::string OBD2Communication::getOBDSupplyVoltage() {
-    return sendCommand("AT RV\r");
+double OBD2Communication::getOBDSupplyVoltage() {
+    std::string response = sendCommand("AT RV\r");
+//    std::cout << "Raw response: " << response << std::endl; // Print raw response
+
+    // Remove any non-digit characters from the response
+    response.erase(std::remove_if(response.begin(), response.end(), [](char c) { return !std::isdigit(c) && c != '.'; }), response.end());
+
+    if (response.empty()) {
+        return -1;
+    }
+
+    return std::stod(response);
 }
 
 std::string OBD2Communication::getDTCs() {
