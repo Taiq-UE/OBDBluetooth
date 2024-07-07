@@ -52,6 +52,15 @@ bool BluetoothConnection::connect(const std::string& port) {
     return true;
 }
 
+bool BluetoothConnection::disconnect() {
+    if (hSerial != INVALID_HANDLE_VALUE) {
+        CloseHandle(hSerial);
+        hSerial = INVALID_HANDLE_VALUE;
+        return true;
+    }
+    return false;
+}
+
 bool BluetoothConnection::send(const std::string& data) {
     DWORD bytesWritten;
     if (!WriteFile(hSerial, data.c_str(), data.size(), &bytesWritten, NULL)) {
