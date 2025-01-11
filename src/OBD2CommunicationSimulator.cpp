@@ -1,4 +1,4 @@
-#include "OBD2CommunicationSimulator.h"
+#include "OBD2CommunicationSimulator.hpp"
 
 #include <iomanip> // for std::setw and std::setfill
 

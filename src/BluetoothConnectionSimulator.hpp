@@ -1,5 +1,5 @@
 #pragma once
-#include "BluetoothConnection.h"
+#include "BluetoothConnection.hpp"
 #include <random>
 
 class BluetoothConnectionSimulator : public BluetoothConnection {

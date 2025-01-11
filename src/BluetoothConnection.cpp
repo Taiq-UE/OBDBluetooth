@@ -1,4 +1,4 @@
-#include "BluetoothConnection.h"
+#include "BluetoothConnection.hpp"
 #include <iostream>
 #include <stdexcept>
 

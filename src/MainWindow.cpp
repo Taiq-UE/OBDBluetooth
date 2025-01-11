@@ -6,9 +6,9 @@
 #include <QMessageBox>
 #include <QPushButton>
 #include <QVBoxLayout>
-#include "MainWindow.h"
-#include "BluetoothConnection.h"
-#include "OBD2Communication.h"
+#include "MainWindow.hpp"
+#include "BluetoothConnection.hpp"
+#include "OBD2Communication.hpp"
 
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent)

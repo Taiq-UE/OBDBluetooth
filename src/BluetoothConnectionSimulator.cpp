@@ -1,4 +1,4 @@
-#include "BluetoothConnectionSimulator.h"
+#include "BluetoothConnectionSimulator.hpp"
 
 BluetoothConnectionSimulator::BluetoothConnectionSimulator() : BluetoothConnection(), generator(std::random_device{}()), distribution(0, 255) {}
 

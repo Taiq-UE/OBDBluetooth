@@ -1,5 +1,5 @@
 #pragma once
-#include "BluetoothConnection.h"
+#include "BluetoothConnection.hpp"
 #include <string>
 
 class OBD2Communication {

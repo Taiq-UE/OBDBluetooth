@@ -1,5 +1,5 @@
 #pragma once
-#include "OBD2Communication.h"
+#include "OBD2Communication.hpp"
 #include <random>
 
 class OBD2CommunicationSimulator : public OBD2Communication {
