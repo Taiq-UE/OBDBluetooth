@@ -1,6 +1,7 @@
-#include "BluetoothConnection.hpp"
 #include <iostream>
 #include <stdexcept>
+
+#include "BluetoothConnection.hpp"
 
 BluetoothConnection::BluetoothConnection() : hSerial(INVALID_HANDLE_VALUE) {}
 
@@ -10,13 +11,12 @@ BluetoothConnection::~BluetoothConnection() {
     }
 }
 
-bool BluetoothConnection::connect(const std::string& port) {
-
-    std::wstring wport(port.begin(), port.end());
+bool BluetoothConnection::connect(const QString& port) {
+    std::wstring wport = port.toStdWString();
     hSerial = CreateFile(wport.c_str(), GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
     if (hSerial == INVALID_HANDLE_VALUE) {
-        std::cout << "Error opening serial port" << std::endl;
+        std::cerr << "Error opening serial port" << std::endl;
         return false;
     }
 
@@ -61,21 +61,22 @@ bool BluetoothConnection::disconnect() {
     return false;
 }
 
-bool BluetoothConnection::send(const std::string& data) {
+bool BluetoothConnection::send(const QString& data) {
     DWORD bytesWritten;
-    if (!WriteFile(hSerial, data.c_str(), data.size(), &bytesWritten, NULL)) {
+    QByteArray byteArray = data.toUtf8();
+    if (!WriteFile(hSerial, byteArray.constData(), byteArray.size(), &bytesWritten, NULL)) {
         std::cerr << "Error writing to serial port" << std::endl;
         return false;
     }
     return true;
 }
 
-std::string BluetoothConnection::receive() {
+QString BluetoothConnection::receive() {
     char buffer[1024];
     DWORD bytesRead;
     if (!ReadFile(hSerial, buffer, sizeof(buffer), &bytesRead, NULL)) {
         std::cerr << "Error reading from serial port" << std::endl;
         return "";
     }
-    return std::string(buffer, bytesRead);
+    return QString::fromUtf8(buffer, bytesRead);
 }

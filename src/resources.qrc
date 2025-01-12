@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>ui/StartWindow.qml</file>
+        <file>ui/ConnectedWindow.qml</file>
+        <file>ui/Constants.qml</file>
+    </qresource>
+</RCC>

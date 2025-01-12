@@ -1,15 +1,22 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-
-#include <QMainWindow>
-
-class MainWindow : public QMainWindow
-{
-Q_OBJECT
-
-public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow() override;
-};
-
-#endif // MAINWINDOW_H
+// #ifndef MAINWINDOW_HPP
+// #define MAINWINDOW_HPP
+//
+// #include <QMainWindow>
+//
+// class MainWindow : public QMainWindow {
+//     Q_OBJECT
+//
+// public:
+//     explicit MainWindow(QWidget *parent = nullptr);
+//     ~MainWindow();
+//
+//     private slots:
+//         void showConnectedView();
+//     void showStartView();
+//
+// private:
+//     QWidget *startContainer;
+//     QWidget *connectedContainer;
+// };
+//
+// #endif // MAINWINDOW_HPP
