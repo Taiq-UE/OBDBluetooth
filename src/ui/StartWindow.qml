@@ -14,6 +14,12 @@ Rectangle {
         width: 163
         height: 84
         text: qsTr("Connect")
-        onClicked: btConnection.connect("COM5")
+        onClicked: {
+            if (btConnection.connect("COM5")) {
+                Qt.createComponent("ConnectedWindow.qml").createObject(rectangle)
+            } else {
+                console.log("Connection failed")
+            }
+        }
     }
 }

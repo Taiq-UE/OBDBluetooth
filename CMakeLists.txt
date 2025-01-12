@@ -34,6 +34,9 @@ add_executable(OBDBluetoothScanner
         src/sim/SimBluetoothConnection.hpp
         src/sim/SimBluetoothConnection.cpp
         src/interface/IBluetoothConnection.hpp
+        src/interface/IOBD2Communication.hpp
+        src/sim/SimOBD2Communication.cpp
+        src/sim/SimOBD2Communication.hpp
 )
 
 target_link_libraries(OBDBluetoothScanner PRIVATE Qt6::Widgets Qt6::Gui Qt6::Core Qt6::Quick Qt6::QuickControls2 Qt6::Qml)
