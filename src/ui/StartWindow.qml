@@ -7,6 +7,10 @@ Rectangle {
     height: 1080
     color: "#858585"
 
+    Loader {
+        id: connectingWindowLoader
+    }
+
     Button {
         id: connectButton
         x: 879
@@ -15,11 +19,18 @@ Rectangle {
         height: 84
         text: qsTr("Connect")
         onClicked: {
-            if (btConnection.connect("COM5")) {
-                Qt.createComponent("ConnectedWindow.qml").createObject(rectangle)
-            } else {
-                console.log("Connection failed")
-            }
+            connectButton.visible = false
+            connectingWindowLoader.source = "ConnectingWindow.qml"
+            Qt.callLater(function() {
+                var success = btConnection.connect("COM5")
+                connectingWindowLoader.source = ""
+                if (success) {
+                    Qt.createComponent("ConnectedWindow.qml").createObject(rectangle)
+                } else {
+                    connectButton.visible = true
+                    console.log("Connection failed")
+                }
+            })
         }
     }
 }

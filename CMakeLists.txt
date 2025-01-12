@@ -3,7 +3,7 @@ project(OBDBluetoothScanner)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_definitions(-DUSE_SIMULATED)
+#add_definitions(-DUSE_SIMULATED)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -30,6 +30,7 @@ add_executable(OBDBluetoothScanner
         src/MainWindow.cpp
         src/ui/StartWindow.qml
         src/ui/ConnectedWindow.qml
+        src/ui/ConnectingWindow.qml
         src/ui/Constants.qml
         src/sim/SimBluetoothConnection.hpp
         src/sim/SimBluetoothConnection.cpp

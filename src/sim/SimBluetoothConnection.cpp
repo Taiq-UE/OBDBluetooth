@@ -1,8 +1,10 @@
 #include <iostream>
+#include <windows.h>
 
 #include "SimBluetoothConnection.hpp"
 
 bool SimBluetoothConnection::connect(const QString& port) {
+    Sleep(500);
     std::cout << "Simulated connect to port: " << port.toStdString() << std::endl;
     return true;
 }
