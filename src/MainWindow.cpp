@@ -13,7 +13,7 @@
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent)
 {
-    QWidget *centralWidget = new QWidget(this);
+    auto *centralWidget = new QWidget(this);
     QVBoxLayout *layout = new QVBoxLayout(centralWidget);
 
     QString modernButtonStyle = "QPushButton {"

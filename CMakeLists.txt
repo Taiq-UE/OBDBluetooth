@@ -2,25 +2,31 @@ cmake_minimum_required(VERSION 3.27)
 project(OBDBluetoothScanner)
 
 set(CMAKE_CXX_STANDARD 17)
+
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-list(APPEND CMAKE_PREFIX_PATH "D:\\Programy\\Qt\\6.7.1\\mingw_64\\lib\\cmake")
+set(CMAKE_PREFIX_PATH "D:/Apps/Qt/6.8.1/mingw_64/")
+find_package(Qt6 REQUIRED COMPONENTS Widgets Gui Core)
 
-find_package(Qt6 COMPONENTS Widgets REQUIRED)
+include_directories("D:/Apps/Qt/6.8.1/mingw_64/include")
+link_directories("D:/Apps/Qt/6.8.1/mingw_64/lib")
 
-qt6_wrap_cpp(MOC_FILES src/main.cpp)
+add_executable(OBDBluetoothScanner
+    src/main.cpp
+    src/BluetoothConnection.hpp
+    src/BluetoothConnection.cpp
+    src/OBD2Communication.hpp
+    src/OBD2Communication.cpp
+    src/BluetoothConnectionSimulator.cpp
+    src/OBD2CommunicationSimulator.cpp
+    src/BluetoothConnectionSimulator.hpp
+    src/DTC_Codes.hpp
+    src/MainWindow.hpp
+    src/MainWindow.cpp
+)
 
-add_executable(OBDBluetoothScanner src/main.cpp
-        ${MOC_FILES}
-        src/BluetoothConnection.h
-        src/BluetoothConnection.cpp
-        src/OBD2Communication.h
-        src/OBD2Communication.cpp
-        src/BluetoothConnectionSimulator.cpp
-        src/OBD2CommunicationSimulator.cpp
-        src/BluetoothConnectionSimulator.h
-        src/DTC_Codes.h
-        src/MainWindow.h
-        src/MainWindow.cpp)
+target_link_libraries(OBDBluetoothScanner PRIVATE Qt6::Widgets Qt6::Gui Qt6::Core)
 
-target_link_libraries(OBDBluetoothScanner ws2_32 Qt6::Widgets)
+include(CPack)
