@@ -1,4 +1,11 @@
+#include <QThread>
+
 #include "SimOBD2Communication.hpp"
+
+int SimOBD2Communication::speed = 0;
+SimOBD2Communication::SimOBD2Communication(SimBluetoothConnection& bt) {
+
+}
 
 bool SimOBD2Communication::initialize() {
     // Simulated initialization logic
@@ -6,8 +13,11 @@ bool SimOBD2Communication::initialize() {
 }
 
 int SimOBD2Communication::getSpeed() {
-    // Simulated speed value
-    return 50;
+    return speed++;
+}
+
+void SimOBD2Communication::setSpeed(int speedVal) {
+    speed = speedVal;
 }
 
 int SimOBD2Communication::getRPM() {

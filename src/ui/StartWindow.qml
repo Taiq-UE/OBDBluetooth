@@ -35,6 +35,7 @@ Page {
                     busyIndicator.visible = true
 
                     btConnection.connectAsync("COM5")
+                    obd2.initialize()
                 }
             }
 
