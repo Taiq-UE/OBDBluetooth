@@ -5,6 +5,18 @@ Page {
     id: pageReadErrors
     title: qsTr("Read Errors")
 
-    // Tu można np. dodać przycisk "Back", itp.
-    // i logikę, która korzysta z btConnection do pobrania błędów
+    Item {
+        anchors.fill: parent
+
+        Button {
+            text: qsTr("Back")
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 20
+            onClicked: {
+                var stackView = pageReadErrors.parent; // Odwołanie do StackView
+                stackView.pop(); // Powrót do poprzedniej strony
+            }
+        }
+    }
 }

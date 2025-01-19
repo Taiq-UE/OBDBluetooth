@@ -5,5 +5,18 @@ Page {
     id: pageTurboChart
     title: qsTr("Turbo pressure/Boost chart")
 
-    // Wykres ciśnienia doładowania
+    Item {
+        anchors.fill: parent
+
+        Button {
+            text: qsTr("Back")
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 20
+            onClicked: {
+                var stackView = pageTurboChart.parent; // Odwołanie do StackView
+                stackView.pop(); // Powrót do poprzedniej strony
+            }
+        }
+    }
 }
