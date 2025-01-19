@@ -1,54 +1,83 @@
-import QtQuick
-import QtQuick.Controls
+import QtQuick 2.15
+import QtQuick.Controls 2.15
 
-Rectangle {
-    id: root
-    width: 1920
-    height: 1080
-    color: "#858585"
+Page {
+    id: connectedWindow
+    title: qsTr("Page 2")
 
-    Button {
-        id: readErrorsButton
-        x: 597
-        y: 853
-        width: 192
-        height: 97
-        text: qsTr("Read Errors with AI Assistant")
+    Item {
+        anchors.fill: parent
+
+        Column {
+            id: header
+            anchors.top: parent.top
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.topMargin: 20
+            spacing: 10
+
+            Text {
+                id: statusText
+                text: qsTr("Status: Connected") // Początkowy status
+                font.pointSize: 18
+                horizontalAlignment: Text.AlignHCenter
+            }
+        }
+
+        Row {
+            id: buttonsRow
+            anchors.bottom: parent.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottomMargin: 20
+            spacing: 10
+
+            Button {
+                text: qsTr("Read Errors")
+                onClicked: {
+                    var stackView = connectedWindow.parent;
+                    stackView.push(Qt.createComponent("PageReadErrors.qml"));
+                }
+            }
+
+            Button {
+                text: qsTr("Acceleration Test")
+                onClicked: {
+                    var stackView = connectedWindow.parent;
+                    stackView.push(Qt.createComponent("PageAcceleration.qml"));
+                }
+            }
+
+            Button {
+                text: qsTr("Turbo pressure/Boost chart")
+                onClicked: {
+                    var stackView = connectedWindow.parent;
+                    stackView.push(Qt.createComponent("PageTurboChart.qml"));
+                }
+            }
+
+            Button {
+                text: qsTr("Dashboard")
+                onClicked: {
+                    var stackView = connectedWindow.parent;
+                    stackView.push(Qt.createComponent("PageDashboard.qml"));
+                }
+            }
+
+            Button {
+                text: qsTr("Disconnect")
+                onClicked: {
+                    btConnection.disconnect(); // Wywołanie disconnect
+                    var stackView = connectedWindow.parent;
+                    stackView.pop(); // Powrót do poprzedniego okna
+                }
+            }
+        }
     }
 
-    Button {
-        id: accelerationButton
-        x: 864
-        y: 853
-        width: 192
-        height: 97
-        text: "Acceleration"
-    }
-
-    Button {
-        id: chartButton
-        x: 1129
-        y: 853
-        width: 192
-        height: 97
-        text: qsTr("Turbo pressure / Boost chart")
-    }
-
-    Button {
-        id: disconnectButton
-        x: 1397
-        y: 853
-        width: 192
-        height: 97
-        text: qsTr("Disconnect")
-    }
-
-    Button {
-        id: dashboardButton
-        x: 333
-        y: 853
-        width: 192
-        height: 97
-        text: "Dashboard"
+    // Obsługa zmiany statusu
+    Connections {
+        target: btConnection
+        onConnectionFinished: function(newStatus) {
+            statusText.text = qsTr("Status: ") + newStatus;
+        }
     }
 }

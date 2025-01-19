@@ -1,36 +1,70 @@
-import QtQuick 2.0
-import QtQuick.Controls 2.0
+import QtQuick 2.15
+import QtQuick.Controls 2.15
 
-Rectangle {
-    id: rectangle
-    width: 1920
-    height: 1080
-    color: "#858585"
+Page {
+    id: startWindow
+    title: qsTr("Start Window")
 
-    Loader {
-        id: connectingWindowLoader
+    Item {
+        anchors.fill: parent
+
+        Column {
+            id: header
+            anchors.top: parent.top
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.topMargin: 20
+            spacing: 10
+
+            Text {
+                id: statusText
+                text: qsTr("Status: Disconnected") // Początkowy status
+                font.pointSize: 18
+                horizontalAlignment: Text.AlignHCenter
+            }
+        }
+
+        Column {
+            anchors.centerIn: parent
+            spacing: 20
+
+            Button {
+                id: connectButton
+                text: qsTr("Connect")
+                onClicked: {
+                    connectButton.visible = false
+                    busyIndicator.visible = true
+
+                    btConnection.connectAsync("COM5")
+                }
+            }
+
+            BusyIndicator {
+                id: busyIndicator
+                visible: false
+                running: true
+            }
+        }
     }
 
-    Button {
-        id: connectButton
-        x: 879
-        y: 498
-        width: 163
-        height: 84
-        text: qsTr("Connect")
-        onClicked: {
-            connectButton.visible = false
-            connectingWindowLoader.source = "ConnectingWindow.qml"
-            Qt.callLater(function() {
-                var success = btConnection.connect("COM5")
-                connectingWindowLoader.source = ""
-                if (success) {
-                    Qt.createComponent("ConnectedWindow.qml").createObject(rectangle)
-                } else {
-                    connectButton.visible = true
-                    console.log("Connection failed")
-                }
-            })
+    // Obsługa zmiany statusu
+    Connections {
+        target: btConnection
+        onConnectionFinished: function(newStatus) {
+            statusText.text = qsTr("Status: ") + newStatus;
+
+            // Jeśli połączenie zakończone sukcesem, przechodzimy do ConnectedWindow
+            if (newStatus === "Connected") {
+                console.log("Connected successfully!");
+                busyIndicator.visible = false;
+                connectButton.visible = true;
+
+                var stackView = startWindow.parent;
+                stackView.push(Qt.createComponent("ConnectedWindow.qml"));
+            } else {
+                console.log("Connection failed or disconnected.");
+                busyIndicator.visible = false;
+                connectButton.visible = true;
+            }
         }
     }
 }

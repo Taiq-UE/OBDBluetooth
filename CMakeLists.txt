@@ -3,7 +3,7 @@ project(OBDBluetoothScanner)
 
 set(CMAKE_CXX_STANDARD 17)
 
-#add_definitions(-DUSE_SIMULATED)
+add_definitions(-DUSE_SIMULATED)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)

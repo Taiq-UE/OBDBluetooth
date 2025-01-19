@@ -9,17 +9,17 @@
 #include "BluetoothConnection.hpp"
 #endif
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     QApplication app(argc, argv);
-    // QQuickStyle::setStyle("Material");
 
     QQmlApplicationEngine engine;
 
-    #ifdef USE_SIMULATED
-        SimBluetoothConnection btConnection;
-    #else
-        BluetoothConnection btConnection;
-    #endif
+#ifdef USE_SIMULATED
+    SimBluetoothConnection btConnection;
+#else
+    BluetoothConnection btConnection;
+#endif
 
     engine.rootContext()->setContextProperty("btConnection", &btConnection);
 
