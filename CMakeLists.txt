@@ -22,20 +22,11 @@ add_executable(OBDBluetoothScanner
         src/BluetoothConnection.cpp
         src/OBD2Communication.hpp
         src/OBD2Communication.cpp
-        src/BluetoothConnectionSimulator.cpp
-        src/OBD2CommunicationSimulator.cpp
-        src/BluetoothConnectionSimulator.hpp
         src/DTC_Codes.hpp
-        src/MainWindow.hpp
-        src/MainWindow.cpp
-        src/ui/StartWindow.qml
-        src/ui/ConnectedWindow.qml
-        src/ui/ConnectingWindow.qml
-        src/ui/Constants.qml
-        src/sim/SimBluetoothConnection.hpp
-        src/sim/SimBluetoothConnection.cpp
         src/interface/IBluetoothConnection.hpp
         src/interface/IOBD2Communication.hpp
+        src/sim/SimBluetoothConnection.hpp
+        src/sim/SimBluetoothConnection.cpp
         src/sim/SimOBD2Communication.cpp
         src/sim/SimOBD2Communication.hpp
 )
