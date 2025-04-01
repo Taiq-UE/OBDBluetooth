@@ -2,7 +2,6 @@
 #define OPENAI_DTC_ANALYZER_HPP
 
 #include <string>
-#include <curl/curl.h>
 
 class OpenAIDtcAnalyzer {
 public:

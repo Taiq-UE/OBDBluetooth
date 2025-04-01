@@ -1,7 +1,8 @@
 #include "OpenAIDtcAnalyzer.hpp"
+
+#include <curl/curl.h>
 #include <iostream>
 #include <fstream>
-#include <sstream>
 
 OpenAIDtcAnalyzer::OpenAIDtcAnalyzer() {
     apiKey = loadApiKey("openaiapikey.txt");
