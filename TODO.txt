@@ -1,3 +1,7 @@
 - Turbo pressure test
 - Fuel injectors test
 - Dashboard
+
+- What does getDTSs return
+    What is returned when there are no DTCs
+    What is returned when there are more than 2 DTCs

@@ -15,6 +15,10 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets Gui Core Quick QuickControls2 Qml)
 include_directories("D:/Apps/Qt/6.8.1/mingw_64/include")
 link_directories("D:/Apps/Qt/6.8.1/mingw_64/lib")
 
+# Dodaj ścieżki do cURL
+include_directories("D:/REPO/OBDBluetooth/curl-8.12.1_4-win64-mingw/include")
+link_directories("D:/REPO/OBDBluetooth/curl-8.12.1_4-win64-mingw/lib")
+
 add_executable(OBDBluetoothScanner
         src/main.cpp
         src/resources.qrc
@@ -29,8 +33,11 @@ add_executable(OBDBluetoothScanner
         src/sim/SimBluetoothConnection.cpp
         src/sim/SimOBD2Communication.cpp
         src/sim/SimOBD2Communication.hpp
+        src/OpenAIDtcAnalyzer.cpp
+        src/OpenAIDtcAnalyzer.hpp
 )
 
-target_link_libraries(OBDBluetoothScanner PRIVATE Qt6::Widgets Qt6::Gui Qt6::Core Qt6::Quick Qt6::QuickControls2 Qt6::Qml)
+# Dodaj bibliotekę cURL do linkowania
+target_link_libraries(OBDBluetoothScanner PRIVATE Qt6::Widgets Qt6::Gui Qt6::Core Qt6::Quick Qt6::QuickControls2 Qt6::Qml curl)
 
 include(CPack)
