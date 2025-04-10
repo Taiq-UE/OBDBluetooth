@@ -51,7 +51,7 @@ void SimOBD2Communication::queryAllPIDs() {
 
 QString SimOBD2Communication::getDTCs() {
     // Simulated DTCs
-    return "P0001, P1002, P2003";
+    return "P0001, P0102, P2003";
 }
 
 QString SimOBD2Communication::sendCommand(const QString& command) {

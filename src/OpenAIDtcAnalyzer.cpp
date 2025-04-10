@@ -5,7 +5,7 @@
 #include <fstream>
 
 OpenAIDtcAnalyzer::OpenAIDtcAnalyzer() {
-    apiKey = loadApiKey("openaiapikey.txt");
+    apiKey = loadApiKey("../openaiapikey.txt");
     if (apiKey.empty()) {
         std::cerr << "Błąd: Nie udało się załadować klucza API!" << std::endl;
     }
@@ -41,6 +41,7 @@ std::string OpenAIDtcAnalyzer::sendRequestToOpenAI(const std::string& payload) {
         headers = curl_slist_append(headers, ("Authorization: Bearer " + apiKey).c_str());
 
         curl_easy_setopt(curl, CURLOPT_URL, "https://api.openai.com/v1/chat/completions");
+        curl_easy_setopt(curl, CURLOPT_CAINFO, "../cacert.pem");
         curl_easy_setopt(curl, CURLOPT_POST, 1L);
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payload.c_str());
@@ -69,12 +70,21 @@ std::string OpenAIDtcAnalyzer::extractMessageContent(const std::string& json) {
     size_t end = json.find("\"", start);
     if (end == std::string::npos) return "Błąd parsowania JSON";
 
-    return json.substr(start, end - start);
+    std::string content = json.substr(start, end - start);
+
+    // Zamiana \n na rzeczywiste nowe linie
+    size_t pos = 0;
+    while ((pos = content.find("\\n", pos)) != std::string::npos) {
+        content.replace(pos, 2, "\n");
+        pos += 1; // Przesunięcie, aby uniknąć nieskończonej pętli
+    }
+
+    return content;
 }
 
 std::string OpenAIDtcAnalyzer::analyzeDtcCodes(const std::string& dtcCodes) {
     std::string json_payload = R"({
-        "model": "gpt-4",
+        "model": "gpt-4o",
         "messages": [
             {"role": "system", "content": "Jesteś ekspertem diagnostyki samochodowej."},
             {"role": "user", "content": "Podaj możliwe przyczyny i sposoby naprawy błędów OBD2: )" + dtcCodes + R"("}

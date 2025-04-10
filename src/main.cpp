@@ -2,6 +2,10 @@
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
 #include <QQmlContext>
+#include <windows.h>
+#include <locale>
+
+#include "OpenAIDtcAnalyzer.hpp"
 
 #ifdef USE_SIMULATED
 #include "sim/SimBluetoothConnection.hpp"
@@ -13,6 +17,9 @@
 
 int main(int argc, char *argv[])
 {
+    SetConsoleOutputCP(CP_UTF8);
+
+
     QApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
@@ -32,6 +39,21 @@ int main(int argc, char *argv[])
     if (engine.rootObjects().isEmpty()) {
         return -1;
     }
+
+    OpenAIDtcAnalyzer analyzer;
+    QString dtcCodes = obd2.getDTCs(); // Przykładowe kody DTC
+
+    // Konwersja QString na std::string
+    std::string dtcCodesStd = dtcCodes.toStdString();
+
+    // Analiza kodów DTC
+    std::string analysisStd = analyzer.analyzeDtcCodes(dtcCodesStd);
+
+    // Konwersja std::string na QString
+    QString analysis = QString::fromStdString(analysisStd);
+
+    // Wyświetlenie wyniku
+    std::cout << "Analiza kodów DTC:\n" << analysis.toStdString() << std::endl;
 
     return app.exec();
 }
