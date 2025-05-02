@@ -3,21 +3,21 @@ project(OBDBluetoothScanner)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_definitions(-DUSE_SIMULATED)
+#add_definitions(-DUSE_SIMULATED)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-set(CMAKE_PREFIX_PATH "D:/Apps/Qt/6.8.1/mingw_64/")
+set(CMAKE_PREFIX_PATH "D:/Apps/Qt/6.8.3/mingw_64/")
 find_package(Qt6 REQUIRED COMPONENTS Widgets Gui Core Quick QuickControls2 Qml)
 
-include_directories("D:/Apps/Qt/6.8.1/mingw_64/include")
-link_directories("D:/Apps/Qt/6.8.1/mingw_64/lib")
+include_directories("D:/Apps/Qt/6.8.3/mingw_64/include")
+link_directories("D:/Apps/Qt/6.8.3/mingw_64/lib")
 
 # Dodaj ścieżki do cURL
-include_directories("D:/REPO/OBDBluetooth/curl-8.12.1_4-win64-mingw/include")
-link_directories("D:/REPO/OBDBluetooth/curl-8.12.1_4-win64-mingw/lib")
+include_directories("D:/REPO/OBDBluetooth/curl-8.13.0_3-win64-mingw/include")
+link_directories("D:/REPO/OBDBluetooth/curl-8.13.0_3-win64-mingw/lib")
 
 add_executable(OBDBluetoothScanner
         src/main.cpp

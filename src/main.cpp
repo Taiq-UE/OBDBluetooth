@@ -5,6 +5,8 @@
 #include <windows.h>
 #include <locale>
 
+#include <iostream>
+
 #include "OpenAIDtcAnalyzer.hpp"
 
 #ifdef USE_SIMULATED
@@ -19,7 +21,8 @@ int main(int argc, char *argv[])
 {
     SetConsoleOutputCP(CP_UTF8);
 
-
+    std::cout << "TEST" << std::flush;
+//    Sleep(10000);
     QApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
@@ -34,7 +37,7 @@ int main(int argc, char *argv[])
 
     engine.rootContext()->setContextProperty("btConnection", &btConnection);
     engine.rootContext()->setContextProperty("obd2", &obd2);
-    engine.load(QUrl::fromLocalFile("D:/REPO/OBDBluetooth/src/ui/App.qml"));
+    engine.load(QUrl::fromLocalFile("C:/Users/kamil/CLionProjects/OBDBluetooth/src/ui/App.qml"));
 
     if (engine.rootObjects().isEmpty()) {
         return -1;
@@ -45,15 +48,15 @@ int main(int argc, char *argv[])
 
     // Konwersja QString na std::string
     std::string dtcCodesStd = dtcCodes.toStdString();
-
+    std::cout << dtcCodesStd << std::endl;
     // Analiza kodów DTC
-    std::string analysisStd = analyzer.analyzeDtcCodes(dtcCodesStd);
+//    std::string analysisStd = analyzer.analyzeDtcCodes(dtcCodesStd);
 
     // Konwersja std::string na QString
-    QString analysis = QString::fromStdString(analysisStd);
+//    QString analysis = QString::fromStdString(analysisStd);
 
     // Wyświetlenie wyniku
-    std::cout << "Analiza kodów DTC:\n" << analysis.toStdString() << std::endl;
+//    std::cout << "Analiza kodów DTC:\n" << analysis.toStdString() << std::endl;
 
     return app.exec();
 }
