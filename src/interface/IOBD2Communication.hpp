@@ -15,5 +15,6 @@ public:
     virtual int getCoolantTemperature() = 0;
     virtual void queryAllPIDs() = 0;
     virtual QString getDTCs() = 0;
+    virtual QString parseDTCs(const QString& raw) = 0;
     virtual QString sendCommand(const QString& command) = 0;
 };

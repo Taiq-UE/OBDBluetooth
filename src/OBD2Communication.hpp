@@ -23,5 +23,6 @@ public:
 
 private:
     BluetoothConnection& btConnection;
+    Q_INVOKABLE QString parseDTCs(const QString& raw) override;
     static void parseAndPrintResponse(const QString &command, const QString &response);
 };
