@@ -246,7 +246,7 @@ bool OBD2Communication::initialize() {
 
 QString OBD2Communication::sendCommand(const QString& command) {
     btConnection.send(command);
-    Sleep(75); // Wait for response
+    Sleep(2000); // Wait for response
     return btConnection.receive();
 }
 
@@ -375,8 +375,72 @@ double OBD2Communication::getOBDSupplyVoltage() {
 }
 
 QString OBD2Communication::getDTCs() {
-    return sendCommand("03\r"); // Mode 03 for DTCs
+    QString response = sendCommand("07\r");
+    return parseDTCs(response);
 }
+
+QString OBD2Communication::parseDTCs(const QString& raw) {
+    QString cleaned = raw;
+    cleaned.remove(">");
+    cleaned.remove("\r");
+    cleaned.remove("\n");
+    cleaned = cleaned.simplified(); // zamienia wielokrotne spacje na pojedyncze
+    QStringList lines = cleaned.split(" ");
+
+    QStringList dtcList;
+
+    for (int i = 0; i < lines.size(); ++i) {
+        if (lines[i].startsWith("7E8") || lines[i].startsWith("7EC")) {
+            // Sprawdź, czy odpowiedź wskazuje brak błędów
+            if (i + 2 < lines.size() && (lines[i + 2] == "43" || lines[i + 2] == "47") && lines[i + 3] == "00") {
+                return "0";  // brak błędów
+            }
+
+            if ((lines[i + 2] == "47" || lines[i + 2] == "43") && i + 3 < lines.size()) {
+                int dtcCount = lines[i + 3].toInt(nullptr, 16); // liczba bajtów, nie liczba błędów
+                int index = i + 4;
+
+                while (index + 1 < lines.size()) {
+                    QString byte1 = lines[index];
+                    QString byte2 = lines[index + 1];
+                    index += 2;
+
+                    if (byte1.length() != 2 || byte2.length() != 2)
+                        continue;
+
+                    int b1 = byte1.toInt(nullptr, 16);
+                    int b2 = byte2.toInt(nullptr, 16);
+
+                    QChar firstChar;
+                    switch ((b1 & 0xC0) >> 6) {
+                        case 0: firstChar = 'P'; break;
+                        case 1: firstChar = 'C'; break;
+                        case 2: firstChar = 'B'; break;
+                        case 3: firstChar = 'U'; break;
+                    }
+
+                    int digit1 = (b1 & 0x30) >> 4;
+                    int digit2 = (b1 & 0x0F);
+                    int digit3 = (b2 & 0xF0) >> 4;
+                    int digit4 = (b2 & 0x0F);
+
+                    QString dtc = QString("%1%2%3%4%5")
+                            .arg(firstChar)
+                            .arg(digit1)
+                            .arg(digit2)
+                            .arg(digit3)
+                            .arg(digit4);
+
+                    if (dtc != "P0000")  // ignoruj pusty kod
+                        dtcList.append(dtc);
+                }
+            }
+        }
+    }
+
+    return dtcList.isEmpty() ? "0" : dtcList.join(", ");
+}
+
 
 void OBD2Communication::parseAndPrintResponse(const QString& command, const QString& response) {
     if (response.isEmpty()) {
