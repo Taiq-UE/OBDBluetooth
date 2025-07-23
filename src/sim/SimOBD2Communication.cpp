@@ -9,6 +9,7 @@ SimOBD2Communication::SimOBD2Communication(SimBluetoothConnection& bt) {
 
 bool SimOBD2Communication::initialize() {
     // Simulated initialization logic
+    std::cout << "Simulated OBD2 communication initialized." << std::endl;
     return true;
 }
 
@@ -57,4 +58,8 @@ QString SimOBD2Communication::getDTCs() {
 QString SimOBD2Communication::sendCommand(const QString& command) {
     // Simulated command response
     return "41 0C 1A F8";
+}
+
+QString SimOBD2Communication::parseDTCs(const QString& raw){
+    return "P0001, P0102, P2003";
 }

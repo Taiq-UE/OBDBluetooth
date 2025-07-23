@@ -23,4 +23,6 @@ public:
 
 private:
     static int speed;
+
+    Q_INVOKABLE QString parseDTCs(const QString &raw) override;
 };

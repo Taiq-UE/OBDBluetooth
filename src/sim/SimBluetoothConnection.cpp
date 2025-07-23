@@ -21,6 +21,7 @@ void SimBluetoothConnection::connectAsync(const QString& port) {
 }
 
 bool SimBluetoothConnection::disconnect() {
+    QThread::sleep(2);
     std::cout << "Simulated disconnect" << std::endl;
     emit connectionFinished("Disconnected"); // Emitujemy status rozłączenia
     return true;

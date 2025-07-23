@@ -5,67 +5,89 @@ Page {
     id: startWindow
     title: qsTr("Start Window")
 
-    Item {
-        anchors.fill: parent
+    // Layout dla głównych elementów
+    Column {
+        anchors.centerIn: parent
+        spacing: 20
 
-        Column {
-            id: header
-            anchors.top: parent.top
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.topMargin: 20
-            spacing: 10
+        Button {
+            id: connectButton
+            text: qsTr("Connect")
+            onClicked: {
+                connectButton.enabled = false  // Zablokowanie przycisku po kliknięciu
 
-            Text {
-                id: statusText
-                text: qsTr("Status: Disconnected") // Początkowy status
-                font.pointSize: 18
-                horizontalAlignment: Text.AlignHCenter
-            }
-        }
+                // Po kliknięciu, próbujemy połączyć się z urządzeniem
+                Qt.callLater(function () {
+                    var btSuccess = btConnection.connect("COM5")
+                    var obdSuccess = obd2.initialize()
 
-        Column {
-            anchors.centerIn: parent
-            spacing: 20
-
-            Button {
-                id: connectButton
-                text: qsTr("Connect")
-                onClicked: {
-                    connectButton.visible = false
-                    busyIndicator.visible = true
-
-                    btConnection.connectAsync("COM5")
-                    obd2.initialize()
-                }
-            }
-
-            BusyIndicator {
-                id: busyIndicator
-                visible: false
-                running: true
+                    if (btSuccess && obdSuccess) {
+                        // Jeśli połączenie udane
+                        connectionPopup.title = "Connection Successful"
+                        connectionPopup.text = "Successfully connected to device."
+                        connectionPopup.callback = function () {
+                            connectButton.enabled = true
+                            var component = Qt.createComponent("ConnectedWindow.qml")
+                            if (component.status === Component.Ready) {
+                                startWindow.parent.push(component)
+                            } else {
+                                console.log("Failed to load ConnectedWindow.qml:", component.errorString())
+                            }
+                        }
+                        connectionPopup.open()
+                    } else {
+                        // Jeśli połączenie nieudane
+                        connectionPopup.title = "Connection Failed"
+                        connectionPopup.text = "Could not connect. Please try again."
+                        connectionPopup.callback = function () {
+                            connectButton.enabled = true
+                        }
+                        connectionPopup.open()
+                    }
+                })
             }
         }
     }
 
-    // Obsługa zmiany statusu
-    Connections {
-        target: btConnection
-        onConnectionFinished: function(newStatus) {
-            statusText.text = qsTr("Status: ") + newStatus;
+    // Popup do wyświetlania komunikatów
+    Popup {
+        id: connectionPopup
+        modal: true
+        focus: true
+        anchors.centerIn: parent
+        width: 300
+        height: 150
 
-            // Jeśli połączenie zakończone sukcesem, przechodzimy do ConnectedWindow
-            if (newStatus === "Connected") {
-                console.log("Connected successfully!");
-                busyIndicator.visible = false;
-                connectButton.visible = true;
+        background: Rectangle {
+            color: "#ffffff"
+            radius: 8
+            border.color: "#888"
+        }
 
-                var stackView = startWindow.parent;
-                stackView.push(Qt.createComponent("ConnectedWindow.qml"));
-            } else {
-                console.log("Connection failed or disconnected.");
-                busyIndicator.visible = false;
-                connectButton.visible = true;
+        Column {
+            anchors.centerIn: parent
+            spacing: 10
+
+            Label {
+                id: popupLabel
+                text: connectionPopup.text
+                wrapMode: Text.WordWrap
+                horizontalAlignment: Text.AlignHCenter
+            }
+
+            Button {
+                text: "OK"
+                onClicked: {
+                    connectionPopup.close()
+                    if (connectionPopup.callback !== null) {
+                        connectionPopup.callback()
+                    }
+                }
             }
         }
+
+        property string text: ""
+        property string title: ""
+        property var callback: null
     }
 }
