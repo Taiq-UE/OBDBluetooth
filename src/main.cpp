@@ -21,8 +21,6 @@ int main(int argc, char *argv[])
 {
     SetConsoleOutputCP(CP_UTF8);
 
-    std::cout << "TEST" << std::flush;
-//    Sleep(10000);
     QApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
@@ -49,11 +47,11 @@ int main(int argc, char *argv[])
     OpenAIDtcAnalyzer analyzer;
     QString dtcCodes = obd2.getDTCs();
 
-    std::string dtcCodesStd = dtcCodes.toStdString();
+//    std::string dtcCodesStd = dtcCodes.toStdString();
 
-    dtcCodes = obd2.getDTCs();
-    dtcCodesStd = dtcCodes.toStdString();
-    std::cout << dtcCodesStd << std::endl;
+//    dtcCodes = obd2.getDTCs();
+//    dtcCodesStd = dtcCodes.toStdString();
+//    std::cout << dtcCodesStd << std::endl;
 
     engine.rootContext()->setContextProperty("btConnection", &bt2);
     engine.rootContext()->setContextProperty("obd2", &obd2);

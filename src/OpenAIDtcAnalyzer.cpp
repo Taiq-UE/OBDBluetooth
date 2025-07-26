@@ -4,6 +4,10 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <QFile>
+#include <QTextStream>
+#include <QStandardPaths>
+#include <QDir>
 
 OpenAIDtcAnalyzer::OpenAIDtcAnalyzer(QObject* parent) : QObject(parent) {
     apiKey = loadApiKey("../openaiapikey.txt");
@@ -83,7 +87,7 @@ QString OpenAIDtcAnalyzer::analyzeDtcCodes(const QString& dtcCodes) {
     QString json_payload = QString(R"({
         "model": "gpt-4o",
         "messages": [
-            {"role": "system", "content": "Jesteś ekspertem diagnostyki samochodowej."},
+            {"role": "system", "content": "Jesteś ekspertem diagnostyki samochodowej. Nie używaj żadnych potwierdzeń i powitań, tylko od razu przejdź do analizy."},
             {"role": "user", "content": "%1"}
         ],
         "temperature": 0.7
@@ -92,3 +96,26 @@ QString OpenAIDtcAnalyzer::analyzeDtcCodes(const QString& dtcCodes) {
     QString response = sendRequestToOpenAI(json_payload);
     return extractMessageContent(response);
 }
+
+bool OpenAIDtcAnalyzer::saveAnalysisToDesktop(const QString& content, const QString& filename) {
+    QString desktopPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+    if (desktopPath.isEmpty()) {
+        qWarning("Nie udało się znaleźć ścieżki do pulpitu.");
+        return false;
+    }
+
+    QDir dir(desktopPath);
+    QString filePath = dir.filePath(filename);
+
+    QFile file(filePath);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qWarning("Nie udało się zapisać pliku na pulpicie.");
+        return false;
+    }
+
+    QTextStream out(&file);
+    out << content;
+    file.close();
+    return true;
+}
+

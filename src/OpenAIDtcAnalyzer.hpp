@@ -10,6 +10,7 @@ public:
     explicit OpenAIDtcAnalyzer(QObject* parent = nullptr);
 
     Q_INVOKABLE QString analyzeDtcCodes(const QString& dtcCodes);
+    Q_INVOKABLE bool saveAnalysisToDesktop(const QString& content, const QString& filename = "ai_analysis.txt");
 
 private:
     QString apiKey;

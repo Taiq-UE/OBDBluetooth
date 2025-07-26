@@ -35,6 +35,19 @@ Page {
             }
         }
 
+        Button {
+            text: "Save to Desktop"
+            onClicked: {
+                let success = analyzer.saveAnalysisToDesktop(analysisOutput.text);
+                if (success) {
+                    console.log("Plik zapisany na pulpicie!");
+                } else {
+                    console.log("Błąd zapisu pliku.");
+                }
+            }
+        }
+
+
         ScrollView {
             Layout.fillWidth: true
             Layout.fillHeight: true
