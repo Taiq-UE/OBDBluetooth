@@ -1,19 +1,23 @@
 #ifndef OPENAI_DTC_ANALYZER_HPP
 #define OPENAI_DTC_ANALYZER_HPP
 
-#include <string>
+#include <QObject>
+#include <QString>
 
-class OpenAIDtcAnalyzer {
+class OpenAIDtcAnalyzer : public QObject {
+Q_OBJECT
 public:
-    explicit OpenAIDtcAnalyzer();
-    std::string analyzeDtcCodes(const std::string& dtcCodes);
+    explicit OpenAIDtcAnalyzer(QObject* parent = nullptr);
+
+    Q_INVOKABLE QString analyzeDtcCodes(const QString& dtcCodes);
 
 private:
-    std::string apiKey;
+    QString apiKey;
+
     static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp);
-    std::string sendRequestToOpenAI(const std::string& payload);
-    std::string extractMessageContent(const std::string& json);
-    std::string loadApiKey(const std::string& apiKeyFilePath);
+    QString sendRequestToOpenAI(const QString& payload);
+    QString extractMessageContent(const QString& json);
+    QString loadApiKey(const QString& apiKeyFilePath);
 };
 
 #endif // OPENAI_DTC_ANALYZER_HPP

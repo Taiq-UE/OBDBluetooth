@@ -8,26 +8,9 @@ Page {
     Item {
         anchors.fill: parent
 
-        Column {
-            id: header
-            anchors.top: parent.top
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.topMargin: 20
-            spacing: 10
-
-            Text {
-                id: statusText
-                text: qsTr("Status: Connected") // Początkowy status
-                font.pointSize: 18
-                horizontalAlignment: Text.AlignHCenter
-            }
-        }
-
         Row {
             id: buttonsRow
-            anchors.bottom: parent.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottomMargin: 20
+            anchors.centerIn: parent
             spacing: 10
 
             Button {
@@ -46,21 +29,21 @@ Page {
                 }
             }
 
-            Button {
-                text: qsTr("Turbo pressure/Boost chart")
-                onClicked: {
-                    var stackView = connectedWindow.parent;
-                    stackView.push(Qt.createComponent("PageTurboChart.qml"));
-                }
-            }
+            // Button {
+            //     text: qsTr("Turbo pressure/Boost chart")
+            //     onClicked: {
+            //         var stackView = connectedWindow.parent;
+            //         stackView.push(Qt.createComponent("PageTurboChart.qml"));
+            //     }
+            // }
 
-            Button {
-                text: qsTr("Dashboard")
-                onClicked: {
-                    var stackView = connectedWindow.parent;
-                    stackView.push(Qt.createComponent("PageDashboard.qml"));
-                }
-            }
+            // Button {
+            //     text: qsTr("Dashboard")
+            //     onClicked: {
+            //         var stackView = connectedWindow.parent;
+            //         stackView.push(Qt.createComponent("PageDashboard.qml"));
+            //     }
+            // }
 
             Button {
                 text: qsTr("Disconnect")
@@ -74,10 +57,10 @@ Page {
     }
 
     // Obsługa zmiany statusu
-    Connections {
-        target: btConnection
-        onConnectionFinished: function(newStatus) {
-            statusText.text = qsTr("Status: ") + newStatus;
-        }
-    }
+    // Connections {
+    //     target: btConnection
+    //     onConnectionFinished: function(newStatus) {
+    //         statusText.text = qsTr("Status: ") + newStatus;
+    //     }
+    // }
 }

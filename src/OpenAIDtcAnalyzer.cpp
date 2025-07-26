@@ -3,24 +3,25 @@
 #include <curl/curl.h>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
-OpenAIDtcAnalyzer::OpenAIDtcAnalyzer() {
+OpenAIDtcAnalyzer::OpenAIDtcAnalyzer(QObject* parent) : QObject(parent) {
     apiKey = loadApiKey("../openaiapikey.txt");
-    if (apiKey.empty()) {
+    if (apiKey.isEmpty()) {
         std::cerr << "Błąd: Nie udało się załadować klucza API!" << std::endl;
     }
 }
 
-std::string OpenAIDtcAnalyzer::loadApiKey(const std::string& apiKeyFilePath) {
-    std::ifstream apiKeyFile(apiKeyFilePath);
-    std::string apiKey;
-    if (apiKeyFile.is_open()) {
-        std::getline(apiKeyFile, apiKey);
-        apiKeyFile.close();
+QString OpenAIDtcAnalyzer::loadApiKey(const QString& apiKeyFilePath) {
+    std::ifstream file(apiKeyFilePath.toStdString());
+    std::string key;
+    if (file.is_open()) {
+        std::getline(file, key);
+        file.close();
     } else {
         std::cerr << "Nie udało się otworzyć pliku z kluczem API!" << std::endl;
     }
-    return apiKey;
+    return QString::fromStdString(key);
 }
 
 size_t OpenAIDtcAnalyzer::WriteCallback(void* contents, size_t size, size_t nmemb, void* userp) {
@@ -28,7 +29,7 @@ size_t OpenAIDtcAnalyzer::WriteCallback(void* contents, size_t size, size_t nmem
     return size * nmemb;
 }
 
-std::string OpenAIDtcAnalyzer::sendRequestToOpenAI(const std::string& payload) {
+QString OpenAIDtcAnalyzer::sendRequestToOpenAI(const QString& payload) {
     CURL* curl;
     CURLcode res;
     std::string response_string;
@@ -38,13 +39,15 @@ std::string OpenAIDtcAnalyzer::sendRequestToOpenAI(const std::string& payload) {
     if (curl) {
         struct curl_slist* headers = NULL;
         headers = curl_slist_append(headers, "Content-Type: application/json");
-        headers = curl_slist_append(headers, ("Authorization: Bearer " + apiKey).c_str());
+        std::string auth = "Authorization: Bearer " + apiKey.toStdString();
+        headers = curl_slist_append(headers, auth.c_str());
 
         curl_easy_setopt(curl, CURLOPT_URL, "https://api.openai.com/v1/chat/completions");
         curl_easy_setopt(curl, CURLOPT_CAINFO, "../cacert.pem");
         curl_easy_setopt(curl, CURLOPT_POST, 1L);
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payload.c_str());
+        std::string payloadStd = payload.toStdString();
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payloadStd.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
 
@@ -58,40 +61,34 @@ std::string OpenAIDtcAnalyzer::sendRequestToOpenAI(const std::string& payload) {
     }
     curl_global_cleanup();
 
-    return response_string;
+    return QString::fromStdString(response_string);
 }
 
-std::string OpenAIDtcAnalyzer::extractMessageContent(const std::string& json) {
-    std::string key = "\"content\": \"";
-    size_t start = json.find(key);
-    if (start == std::string::npos) return "Błąd parsowania JSON";
+QString OpenAIDtcAnalyzer::extractMessageContent(const QString& json) {
+    QString key = "\"content\": \"";
+    int start = json.indexOf(key);
+    if (start == -1) return "Błąd parsowania JSON";
 
     start += key.length();
-    size_t end = json.find("\"", start);
-    if (end == std::string::npos) return "Błąd parsowania JSON";
+    int end = json.indexOf("\"", start);
+    if (end == -1) return "Błąd parsowania JSON";
 
-    std::string content = json.substr(start, end - start);
-
-    // Zamiana \n na rzeczywiste nowe linie
-    size_t pos = 0;
-    while ((pos = content.find("\\n", pos)) != std::string::npos) {
-        content.replace(pos, 2, "\n");
-        pos += 1; // Przesunięcie, aby uniknąć nieskończonej pętli
-    }
-
-    return content;
+    QString content = json.mid(start, end - start);
+    return content.replace("\\n", "\n");
 }
 
-std::string OpenAIDtcAnalyzer::analyzeDtcCodes(const std::string& dtcCodes) {
-    std::string json_payload = R"({
+QString OpenAIDtcAnalyzer::analyzeDtcCodes(const QString& dtcCodes) {
+    QString prompt = QString("Podaj możliwe przyczyny i sposoby naprawy błędów OBD2: %1").arg(dtcCodes);
+
+    QString json_payload = QString(R"({
         "model": "gpt-4o",
         "messages": [
             {"role": "system", "content": "Jesteś ekspertem diagnostyki samochodowej."},
-            {"role": "user", "content": "Podaj możliwe przyczyny i sposoby naprawy błędów OBD2: )" + dtcCodes + R"("}
+            {"role": "user", "content": "%1"}
         ],
         "temperature": 0.7
-    })";
+    })").arg(prompt);
 
-    std::string response = sendRequestToOpenAI(json_payload);
+    QString response = sendRequestToOpenAI(json_payload);
     return extractMessageContent(response);
 }

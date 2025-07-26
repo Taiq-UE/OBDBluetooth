@@ -47,23 +47,17 @@ int main(int argc, char *argv[])
 #endif
 
     OpenAIDtcAnalyzer analyzer;
-    QString dtcCodes = obd2.getDTCs(); // Przykładowe kody DTC
+    QString dtcCodes = obd2.getDTCs();
 
-    // Konwersja QString na std::string
     std::string dtcCodesStd = dtcCodes.toStdString();
-//    std::cout << " DTC: " << dtcCodesStd << std::endl;
 
     dtcCodes = obd2.getDTCs();
     dtcCodesStd = dtcCodes.toStdString();
     std::cout << dtcCodesStd << std::endl;
 
-
-
-//    int coolant = obd2.getRPM();
-//    std::cout << "RPM: " << coolant << std::endl;
-
     engine.rootContext()->setContextProperty("btConnection", &bt2);
     engine.rootContext()->setContextProperty("obd2", &obd2);
+    engine.rootContext()->setContextProperty("analyzer", &analyzer);
     engine.load(QUrl::fromLocalFile("C:/Users/kamil/CLionProjects/OBDBluetooth/src/ui/App.qml"));
 
     if (engine.rootObjects().isEmpty()) {
